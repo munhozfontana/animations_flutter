@@ -10,6 +10,7 @@ class ImplicitAnimationsPage extends StatefulWidget {
 }
 
 class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
+  double opacity = 0.0;
   String owl_url =
       'https://raw.githubusercontent.com/flutter/website/master/src/images/owl.jpg';
   @override
@@ -19,7 +20,29 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
         title: Text(widget.title),
       ),
       body: Column(
-        children: <Widget>[Image.network(owl_url)],
+        children: <Widget>[
+          Image.network(owl_url),
+          MaterialButton(
+            child: Text(
+              'Show details',
+              style: TextStyle(color: Colors.blueAccent),
+            ),
+            onPressed: () => setState(() {
+              opacity = 1;
+            }),
+          ),
+          AnimatedOpacity(
+            child: Column(
+              children: <Widget>[
+                Text('Type: Owl'),
+                Text('Age: 39'),
+                Text('Employment: None'),
+              ],
+            ),
+            duration: Duration(seconds: 2),
+            opacity: opacity,
+          )
+        ],
       ),
     );
   }
