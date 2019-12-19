@@ -1,4 +1,5 @@
 import 'package:animations_flutter/app/app_bloc.dart';
+import 'package:animations_flutter/app/modules/implicit_animations/implicit_animations_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:animations_flutter/app/app_widget.dart';
@@ -12,7 +13,8 @@ class AppModule extends MainModule {
 
   @override
   List<Router> get routers => [
-        Router('/', module: HomeModule()),
+        Router('/home', module: HomeModule()),
+        Router('/implicitAnimationsModule', module: ImplicitAnimationsModule()),
       ];
 
   @override
