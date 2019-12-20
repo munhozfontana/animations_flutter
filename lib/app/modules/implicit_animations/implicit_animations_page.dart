@@ -70,6 +70,7 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
               ],
             ),
             duration: Duration(seconds: 2),
+            curve: Curves.easeInOutBack,
             opacity: opacity,
           ),
           Divider(
@@ -86,7 +87,8 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
                 color: color,
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
-              duration: Duration(milliseconds: 400),
+              duration: Duration(milliseconds: 800),
+              curve: Curves.elasticOut,
             ),
           ),
           MaterialButton(
