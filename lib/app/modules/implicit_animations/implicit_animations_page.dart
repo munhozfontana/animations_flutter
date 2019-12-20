@@ -10,17 +10,25 @@ class ImplicitAnimationsPage extends StatefulWidget {
 }
 
 class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
+  // Fade-in
   double opacity = 0.0;
   String owl_url =
       'https://raw.githubusercontent.com/flutter/website/master/src/images/owl.jpg';
+
+  // ShapShift
+  Color color;
+  double borderRadius;
+  double margin;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
+          //******* Fade-in *******
           Image.network(owl_url),
           MaterialButton(
             child: Text(
@@ -41,7 +49,31 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
             ),
             duration: Duration(seconds: 2),
             opacity: opacity,
-          )
+          ),
+          Divider(
+            height: 20,
+          ),
+          //****** ShapShift *******
+          SizedBox(
+            width: 128,
+            height: 128,
+            child: AnimatedContainer(
+              margin: EdgeInsets.all(margin),
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(borderRadius),
+              ),
+              duration: null,
+            ),
+          ),
+          MaterialButton(
+            color: Theme.of(context).primaryColor,
+            child: Text(
+              'change',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () => null,
+          ),
         ],
       ),
     );
