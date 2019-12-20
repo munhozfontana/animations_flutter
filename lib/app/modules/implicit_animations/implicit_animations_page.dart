@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class ImplicitAnimationsPage extends StatefulWidget {
@@ -9,6 +11,18 @@ class ImplicitAnimationsPage extends StatefulWidget {
   _ImplicitAnimationsPageState createState() => _ImplicitAnimationsPageState();
 }
 
+double randomBorderRadius() {
+  return Random().nextDouble() * 64;
+}
+
+double randomMargin() {
+  return Random().nextDouble() * 64;
+}
+
+Color randomColor() {
+  return Color(0xFFFFFFFF & Random().nextInt(0xFFFFFFFF));
+}
+
 class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
   // Fade-in
   double opacity = 0.0;
@@ -16,9 +30,17 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
       'https://raw.githubusercontent.com/flutter/website/master/src/images/owl.jpg';
 
   // ShapShift
-  Color color;
-  double borderRadius;
-  double margin;
+  Color color = Colors.red;
+  double borderRadius = 0;
+  double margin = 0;
+
+  void shapShift() {
+    setState(() {
+      color = randomColor();
+      borderRadius = randomBorderRadius();
+      margin = randomMargin();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +73,10 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
             opacity: opacity,
           ),
           Divider(
-            height: 20,
+            height: 50,
           ),
           //****** ShapShift *******
+
           SizedBox(
             width: 128,
             height: 128,
@@ -63,7 +86,7 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
                 color: color,
                 borderRadius: BorderRadius.circular(borderRadius),
               ),
-              duration: null,
+              duration: Duration(milliseconds: 400),
             ),
           ),
           MaterialButton(
@@ -72,7 +95,10 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
               'change',
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () => null,
+            onPressed: () => shapShift(),
+          ),
+          Divider(
+            height: 50,
           ),
         ],
       ),
