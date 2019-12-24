@@ -34,6 +34,10 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
   double borderRadius = 0;
   double margin = 0;
 
+  //align
+  double xAlign = 1.0;
+  double yAlign = 1.0;
+
   void shapShift() {
     setState(() {
       color = randomColor();
@@ -44,6 +48,9 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var heightPage = MediaQuery.of(context).size.height -
+        (MediaQuery.of(context).size.height / 100) * 30;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -77,27 +84,67 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
             height: 50,
           ),
           //****** ShapShift *******
-
-          SizedBox(
-            width: 128,
-            height: 128,
-            child: AnimatedContainer(
-              margin: EdgeInsets.all(margin),
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              duration: Duration(milliseconds: 800),
-              curve: Curves.elasticOut,
+          Container(
+            height: heightPage,
+            child: ListView(
+              children: <Widget>[
+                SizedBox(
+                  width: 128,
+                  height: heightPage / 2,
+                  child: AnimatedContainer(
+                    margin: EdgeInsets.all(margin.clamp(0, 1.0)),
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(borderRadius),
+                    ),
+                    duration: Duration(seconds: 2),
+                    curve: Curves.elasticOut,
+                  ),
+                ),
+                MaterialButton(
+                  color: Theme.of(context).primaryColor,
+                  child: Text(
+                    'change',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () => shapShift(),
+                ),
+              ],
             ),
           ),
-          MaterialButton(
-            color: Theme.of(context).primaryColor,
-            child: Text(
-              'change',
-              style: TextStyle(color: Colors.white),
+          Divider(
+            height: 50,
+          ),
+          Container(
+            height: heightPage,
+            child: AnimatedAlign(
+              child: GestureDetector(
+                onTap: () => setState(() {
+                  if (xAlign > 0 || yAlign > 0) {
+                    print("aqui1");
+                    xAlign = -1;
+                    yAlign = -1;
+                  } else {
+                    print("aqui2");
+                    xAlign = 1;
+                    yAlign = 1;
+                  }
+                }),
+                child: Container(
+                  width: 25,
+                  height: 25,
+                ),
+              ),
+              duration: Duration(seconds: 2),
+              alignment: Alignment(xAlign, yAlign),
+              curve: Curves.easeInOutQuint,
             ),
-            onPressed: () => shapShift(),
+          ),
+          Divider(
+            height: 50,
+          ),
+          Container(
+            height: heightPage,
           ),
           Divider(
             height: 50,
