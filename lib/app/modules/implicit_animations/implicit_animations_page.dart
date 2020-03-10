@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -37,6 +38,35 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
   //align
   double xAlign = 1.0;
   double yAlign = 1.0;
+  double widthAlign = 50;
+  double heightAlign = 50;
+  double rotate = 0;
+
+  //AnimatedContainer
+  var animatedContainer = false;
+  var callback;
+
+  @override
+  void initState() {
+    Timer.periodic(
+        Duration(seconds: 2),
+        (Timer t) => setState(() {
+              if (xAlign > 0 || yAlign > 0) {
+                xAlign = -1;
+                yAlign = -1;
+                widthAlign = 50;
+                heightAlign = 50;
+                rotate = 0;
+              } else {
+                xAlign = 1;
+                yAlign = 1;
+                widthAlign = 150;
+                heightAlign = 150;
+                rotate = pi / 4;
+              }
+            }));
+    super.initState();
+  }
 
   void shapShift() {
     setState(() {
@@ -50,6 +80,8 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
   Widget build(BuildContext context) {
     var heightPage = MediaQuery.of(context).size.height -
         (MediaQuery.of(context).size.height / 100) * 30;
+
+    var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -86,7 +118,7 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
           //****** ShapShift *******
           Container(
             height: heightPage,
-            child: ListView(
+            child: Column(
               children: <Widget>[
                 SizedBox(
                   width: 128,
@@ -118,22 +150,13 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
           Container(
             height: heightPage,
             child: AnimatedAlign(
-              child: GestureDetector(
-                onTap: () => setState(() {
-                  if (xAlign > 0 || yAlign > 0) {
-                    print("aqui1");
-                    xAlign = -1;
-                    yAlign = -1;
-                  } else {
-                    print("aqui2");
-                    xAlign = 1;
-                    yAlign = 1;
-                  }
-                }),
-                child: Container(
-                  width: 25,
-                  height: 25,
-                ),
+              child: AnimatedContainer(
+                color: Colors.red,
+                width: widthAlign,
+                height: heightAlign,
+                transform: Matrix4.rotationZ(rotate),
+                duration: Duration(seconds: 1),
+                curve: Curves.elasticIn,
               ),
               duration: Duration(seconds: 2),
               alignment: Alignment(xAlign, yAlign),
@@ -145,10 +168,31 @@ class _ImplicitAnimationsPageState extends State<ImplicitAnimationsPage> {
           ),
           Container(
             height: heightPage,
-          ),
-          Divider(
-            height: 50,
-          ),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  animatedContainer = !animatedContainer;
+                });
+              },
+              child: Center(
+                child: AnimatedContainer(
+                  width: animatedContainer ? width : 100.0,
+                  height: animatedContainer ? 100.0 : heightPage,
+                  color: randomColor(),
+                  alignment: animatedContainer
+                      ? Alignment.center
+                      : AlignmentDirectional.topCenter,
+                  duration: Duration(seconds: 1),
+                  curve: Curves.easeInOutQuint,
+                  child: FlutterLogo(
+                    size: animatedContainer ? 25 : 75,
+                    duration: Duration(seconds: 1),
+                    curve: Curves.elasticOut,
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
